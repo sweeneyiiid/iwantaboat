@@ -17,9 +17,13 @@ sudo apt-get install fswebcam
 fswebcam /home/pi/Pictures/take_a_picture.jpg
 ```
 
-# Setting 
+# Setting up streaming
 
-Gonna try to follow the instructions at https://www.instructables.com/id/Raspberry-Pi-Video-Streaming/
+Gonna try to follow the instructions at https://www.instructables.com/id/How-to-Make-Raspberry-Pi-Webcam-Server-and-Stream-/
+
+
+
+
 
 
 
