@@ -76,7 +76,12 @@ sudo service motion restart
 sudo motion
 ```
 
-Ok, gonna commit now before I test in case I do something stupid to the internet, but supposedly its up and running, and I just need to go to a web browser, type in the raspberry pi's IP with port 8080, and it should be streaming.
+So it's running, to view, get the raspberry pi's IP address, and type it with port 8080 into any web browser.
+
+To get the IP address, type `hostname -I` in the terminal.
+
+***IT WORKS!!!***
+
 
 
 
