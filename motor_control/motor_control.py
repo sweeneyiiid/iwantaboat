@@ -28,7 +28,10 @@ def act_pins(pins, lvl="high"):
         except:
             print("pin input " + str(i) + "invalid, skipping")
                 
-        
+#clean up pins on exit
+def exit_mc():
+    gp.cleanup()
+
 
 
 

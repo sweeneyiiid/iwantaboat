@@ -24,5 +24,6 @@ while True:
         mc.act_pins([2,3], 'low')
     else:
         mc.act_pins([4,14,2,3], 'high')
-        
+
+mc.exit_mc()
 print('Goodbye')

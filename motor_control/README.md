@@ -42,7 +42,7 @@ Interacting with keys seems pretty straightforward:
 
  - https://www.python-course.eu/python3_input.php
 
-*** Note though, this is python 3 and I am using python 2, so need to use `raw_input` to get a string.***
+***Note though, this is python 3 and I am using python 2, so need to use `raw_input` to get a string.***
  
 Working with keys that are held down seems like a bit more work, but still doable:
 
@@ -58,7 +58,7 @@ Only have to do this once, but including so I dont forget about it if I set this
 
 So I turned `motor_control.py` into a library, which is called by `motor_control_ui.py`
 
-It's a very simple program that just looks for keyboard input from the user in an infinite loop until the user types `exit`.
+It's a very simple program that just looks for keyboard input from the user in an infinite loop until the user types `exit`, then in cleans up the GPIO pins and exits.
 
 It works pretty well though, even making me rethink the need for figuring out how to interpret a key being held down.
 
