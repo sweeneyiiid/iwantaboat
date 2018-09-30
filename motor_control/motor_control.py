@@ -14,8 +14,12 @@ for i in pins:
 
 
 gp.output(2, False)
+gp.output(3, False)
  
-GPIO.output(2, True)
+gp.output(2, True)
+gp.output(3, True)
 
+gp.output(4, False)
+gp.output(14, False)
  
 

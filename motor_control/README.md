@@ -32,6 +32,8 @@ The down stream system consists of a 4 channel relay linked to a motor
 
 Before worrying about interactive operation, going to setup to just run by executing pieces of the script from within the python command line.
 
+Works, but need to understand what happens once I exit the python script.  Based on the behavior of the motor, it seems like it just leaves the pins in their current status when you exit python.
+
 ### UI operation
 
 Need to do some research here, but want to figure out a way to control it by holding down button to lower raise, we'll see.
