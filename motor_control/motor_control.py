@@ -32,13 +32,5 @@ def act_pins(pins, lvl="high"):
 
 
 
-pins = [2,3,4,14]
-
-set_pins_out(pins)
-
-
-act_pins([2,3], "low")
-
-
 
 

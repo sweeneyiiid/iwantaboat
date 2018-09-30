@@ -1,13 +1,28 @@
-# for accessing and controlling the pins
-import RPi.GPIO as gp
-
-import sys
-#refer to pins by their logical number
-#  (eg - pysical pin 8, GPIO14, would be referred to as 14)
-gp.setmode(gp.BCM)
-print(sys.path)
+# custom library mc does background work for GPIO pins
+import motor_control as mc
+import time
 
 
-asdf=input("as")
+pins = [2,3,4,14]
 
-print(asdf)
+mc.set_pins_out(pins)
+mc.act_pins(pins, "high")
+
+
+while True:
+    cmd_in = raw_input("motor_control: ")
+    if cmd_in == 'help':
+        print('\n               f : foward \n               r : reverse \n            exit : exit program \n            help : display help \n <any other key> : stop \n')
+    elif cmd_in == 'exit':
+        mc.act_pins([4,14,2,3], 'high')
+        break
+    elif cmd_in == 'f':
+        mc.act_pins([2,3], 'high')
+        mc.act_pins([4,14], 'low')
+    elif cmd_in == 'r':
+        mc.act_pins([4,14], 'high')
+        mc.act_pins([2,3], 'low')
+    else:
+        mc.act_pins([4,14,2,3], 'high')
+        
+print('Goodbye')

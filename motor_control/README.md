@@ -36,11 +36,13 @@ Works, but need to understand what happens once I exit the python script.  Based
 
 Ok, have it up and running, I am a little bit worried that it's actually faster than I would like, but I am gonna punt that for now and leave it to the UI to control.  Possibly in the future I could do some crazy thing where I try to limit by rotations of winch, we'll see.
 
-### UI operation
+### UI Setup
 
 Interacting with keys seems pretty straightforward:
 
  - https://www.python-course.eu/python3_input.php
+
+*** Note though, this is python 3 and I am using python 2, so need to use `raw_input` to get a string.***
  
 Working with keys that are held down seems like a bit more work, but still doable:
 
@@ -50,7 +52,15 @@ As I move forward on this, I think I am going to make `motor_control.py` into my
 
  - https://stackoverflow.com/questions/3402168/permanently-add-a-directory-to-pythonpath
 
-OK, works, tomorrow will start working on keyboard input.
+Only have to do this once, but including so I dont forget about it if I set this up somewhere else.
+
+### UI Operation
+
+So I turned `motor_control.py` into a library, which is called by `motor_control_ui.py`
+
+It's a very simple program that just looks for keyboard input from the user in an infinite loop until the user types `exit`.
+
+It works pretty well though, even making me rethink the need for figuring out how to interpret a key being held down.
 
 
 
