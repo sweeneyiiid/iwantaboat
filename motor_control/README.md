@@ -46,6 +46,11 @@ Working with keys that are held down seems like a bit more work, but still doabl
 
  - https://stackoverflow.com/questions/44903210/how-to-detect-key-press-event-and-key-hold-down-event-without-using-pygame
  
+As I move forward on this, I think I am going to make `motor_control.py` into my own little mini module, and call it from the UI script.  In order to make this work, I want to add the git repo to the `PYTHONPATH`.
+
+ - https://stackoverflow.com/questions/3402168/permanently-add-a-directory-to-pythonpath
+
+OK, works, tomorrow will start working on keyboard input.
 
 
 

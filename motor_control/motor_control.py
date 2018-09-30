@@ -6,20 +6,39 @@ import RPi.GPIO as gp
 #  (eg - pysical pin 8, GPIO14, would be referred to as 14)
 gp.setmode(gp.BCM)
 
+
+#create function to set pins at once
+#setup pins for output
+def set_pins_out(pins):
+    for i in pins:
+        try:
+            gp.setup(i,gp.OUT)
+        except:
+            print("pin input " + str(i) + "invalid, skipping")
+            
+
+#switch list of pins to high or low
+def act_pins(pins, lvl="high"):
+
+    pin_out = False if lvl == "low" else True
+    
+    for i in pins:
+        try:
+            gp.output(i, pin_out)
+        except:
+            print("pin input " + str(i) + "invalid, skipping")
+                
+        
+
+
+
 pins = [2,3,4,14]
 
-for i in pins:
-    gp.setup(i,gp.OUT)
+set_pins_out(pins)
+
+
+act_pins([2,3], "low")
 
 
 
-gp.output(2, False)
-gp.output(3, False)
- 
-gp.output(2, True)
-gp.output(3, True)
-
-gp.output(4, False)
-gp.output(14, False)
- 
 
