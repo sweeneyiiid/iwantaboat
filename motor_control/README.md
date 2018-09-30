@@ -34,9 +34,21 @@ Before worrying about interactive operation, going to setup to just run by execu
 
 Works, but need to understand what happens once I exit the python script.  Based on the behavior of the motor, it seems like it just leaves the pins in their current status when you exit python.
 
+Ok, have it up and running, I am a little bit worried that it's actually faster than I would like, but I am gonna punt that for now and leave it to the UI to control.  Possibly in the future I could do some crazy thing where I try to limit by rotations of winch, we'll see.
+
 ### UI operation
 
-Need to do some research here, but want to figure out a way to control it by holding down button to lower raise, we'll see.
+Interacting with keys seems pretty straightforward:
+
+ - https://www.python-course.eu/python3_input.php
+ 
+Working with keys that are held down seems like a bit more work, but still doable:
+
+ - https://stackoverflow.com/questions/44903210/how-to-detect-key-press-event-and-key-hold-down-event-without-using-pygame
+ 
+
+
+
 
 
 
