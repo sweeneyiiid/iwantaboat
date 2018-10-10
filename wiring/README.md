@@ -19,8 +19,8 @@ In each case I describe what link exists when the relay is closed:
 
  - relay 1: `(-)` battery to `(-)` motor
  - relay 2: `(+)` battery to `(+)` motor
- - relay 1: `(-)` battery to `(+)` motor
- - relay 1: `(+)` battery to `(-)` motor
+ - relay 3: `(-)` battery to `(+)` motor
+ - relay 4: `(+)` battery to `(-)` motor
 
 So Closing relays 1 and 2 (with 3 and 4 open) starts the motor in one direction, opening 1 and 2 and closing 3 and 4 reverses the direction. 
 
