@@ -216,6 +216,8 @@ https://unix.stackexchange.com/questions/347373/dhcp-error-dhcpd-service-already
 So is the dhcpd server already running? Check with ps axu. if it is already running, it should pick up the new config on next restart, so figure out who is starting it, and restart it (or reboot if you can't figure it out). – dirkt Feb 25 '17 at 9:46
 ```
 
+
+
 So it might be that chromium or something else (`wlan0`?) is locking DHCP and preventing the restart.
 
 So I am just gonna restart the machine and see what happens...
@@ -242,7 +244,17 @@ Enabled SSH by following the instructions via the start menu, and actually anoth
 
 So now gonna disconnect from my windows network, and try to log into the pi...
 
+Ok, I connected through the windows gui, now gonna try SSH via PuTTy...
 
+using the static ip I configured on the pi: 192.168.42.1
+
+***Shit, so this works, but I still have a problem because I cant connect to the internet on the pi.  But anyway, I was able to run the motor control UI from the SSH terminal.***
+
+so what to do next???
+
+I want to be able to use the pi's built in wifi to connect to the internet but use the secondary network to access from my computer / phone, or whatever.
+
+...also, I dont really know why the pi is working in some ways and failing in others, need to figure that out.
 
 
 
