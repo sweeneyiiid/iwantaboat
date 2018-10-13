@@ -10,9 +10,11 @@ https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/over
 
 And I am using the wifi adaptor that came with my kball car.
 
-### Setting up ad hoc network on raspberry pi
+# Setting up raspberry pi to host a wifi network
 
 The how-to I am following was designed for connecting to the internet, and I am not doing that so skipping a few steps, hopefully I dont miss anything important.
+
+### Prep Work
 
 Ok, so the instructions make it seem like the pi doesnt already have a wireless connection, so they refer to `wlan0` but I already have one, so the usb adaptor I plugged in is `wlan1` which I think will be convenient.
 
@@ -42,7 +44,15 @@ next they ask you to install an `ip tables manager`:
 sudo apt-get install iptables-persistent
 ```
 
+### Set up DHCP Server
 
+The instructions say to use the in-terminal text editor `nano`, but I hate in-terminal text editors, so I am gonna use thonny instead
+
+```
+sudo thonny /etc/dhcp/dhcpd.conf
+```
+
+So as I go step by step through this, I dont want to write down everything since I am just following instructions, so I'll just write down when I deviate.  Just in case they take down the instructions though, I added a copy of the webpage into this directory (`WiFi_AdHoc - Debian Wiki.html`)
 
 
 
