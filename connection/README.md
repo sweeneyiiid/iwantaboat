@@ -54,6 +54,21 @@ sudo thonny /etc/dhcp/dhcpd.conf
 
 So as I go step by step through this, I dont want to write down everything since I am just following instructions, so I'll just write down when I deviate.  Just in case they take down the instructions though, I added a copy of the webpage into this directory (`WiFi_AdHoc - Debian Wiki.html`)
 
+***Here we go, in the step to setup the interfaces, they reference using `wlan0`, but I am gonna plug my little antenna in and try to use `wlan1`.  So every reference to 1 below is actually 0 in the instructions, unless I note otherwise.***
+
+Hmm, they tell you to run `sudo ifdown wlan1` in case you already have the lan setup.  I clearly do have it setup, but the command throws an error, gonna proceed anyway, cause maybe `ifdown` just isnt configured to care about `wlan1` yet, and hopefully that's what I'll be doing next.
+
+OK, this is super scary, the `/etc/network/interfaces` that they tell you to update basically has nothing in it except comments telling you to use something else for static IPs.  So this could blow up in my face... but gonna proceed anyway, and in adding to adding what they say to add, also gonna add whatever lines they show that are already supposed to be there, as long as I think they should relate to `wlan1` (so basically if they dont appear to reference `wlan0` or `eth0`).
+
+Only good news is that this is all for `wlan1`, so hopefully... hopefully... all I am gonna be doing is screwing up my playground lan, not the main `wlan0`.
+
+
+
+
+
+
+
+
 
 
 
