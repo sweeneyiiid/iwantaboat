@@ -114,7 +114,7 @@ https://askubuntu.com/questions/472794/hostapd-error-nl80211-could-not-configure
 sudo nmcli nm wifi off
 sudo rfkill unblock wlan
 
-sudo ifconfig wlan0 10.15.0.1/24 up
+sudo ifconfig wlan1 10.15.0.1/24 up
 sleep 1
 sudo service isc-dhcp-server restart
 sudo service hostapd restart
@@ -133,16 +133,65 @@ Lordy, this aint easy... my pi doesnt recognize command `nmcli`, and I am sick o
 instead, gonna try:
 
 ```
-sudo iwconfig wlan0 txpower off
+sudo iwconfig wlan1 txpower off
 ```
 
-...and then presumable 
+...and then presumably
 
 ```
-sudo iwconfig wlan0 txpower ***on***
+sudo iwconfig wlan1 txpower on
+```
+
+Ok, first step worked, but then seemed to get a jumble of errors:
+
+```
+pi@raspberrypi:~/Desktop/git_repos/iwantaboat/connection $ sudo iwconfig wlan1 txpower off
+pi@raspberrypi:~/Desktop/git_repos/iwantaboat/connection $ sudo ifconfig wlan1 192.168.42.1 up
+SIOCSIFFLAGS: Operation not possible due to RF-kill
+SIOCSIFFLAGS: Operation not possible due to RF-kill
+pi@raspberrypi:~/Desktop/git_repos/iwantaboat/connection $ sudo iwconfig wlan1 txpower on
+pi@raspberrypi:~/Desktop/git_repos/iwantaboat/connection $ sudo ifconfig wlan1 192.168.42.1 up
+pi@raspberrypi:~/Desktop/git_repos/iwantaboat/connection $ sudo service isc-dhcp-server restart
+Job for isc-dhcp-server.service failed because the control process exited with error code.
+See "systemctl status isc-dhcp-server.service" and "journalctl -xe" for details.
+pi@raspberrypi:~/Desktop/git_repos/iwantaboat/connection $ sudo service hostapd restart
+Warning: hostapd.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+pi@raspberrypi:~/Desktop/git_repos/iwantaboat/connection $ 
 ```
 
 
+I wonder if the problem is that somewhere `wlan1` is still trying to do something automatically...
+
+Man oh man, going back to that weird comment in `/etc/network/interfaces`:
+
+```
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+```
+
+So I think what I need to do is setup something for `wlan1` in this file... just not sure exactly what yet.
+
+There is an example in `dhcpcd.conf` for `eth0` (commented out):
+
+```
+# Example static IP configuration:
+#interface eth0
+#static ip_address=192.168.0.10/24
+#static ip6_address=fd51:42f8:caae:d92e::ff/64
+#static routers=192.168.0.1
+#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
+```
+
+I am gonna try to configure it for a static IP address for `wlan1`
+
+```
+interface wlan1
+static ip_address=192.168.42.1/24
+```
+
+I am not gonna do anything with the `static routers` configuration right now, although it seems like it's possible I may have to.
+
+So now gonna try again.
 
 
 
