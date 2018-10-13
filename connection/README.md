@@ -272,7 +272,22 @@ lordy, a lot of stuff going on, commented out `authoritative`, didnt seem to do 
 
 ***I have all the files on the other pi, should I just grab them and start over???***
 
+BAHHH, so I commented out the `/etc/network/interfaces` file, and that got me back to being able to connect to internet from pi, but killed my `fv_nbo` network...
 
+what to do, how can I have my cake and eat it to?  was there something in the `interfaces` file that I need to put in the dhcpcd file???
+
+or maybe go back to interfaces, and move some of the commands from dhcpcd into the interfaces file???
+
+hmmm... also, looking at the documentation at (https://wiki.archlinux.org/index.php/dhcpcd), it looks like dhcpcd can be called for specific interfaces, is that the solution?
+
+potentially:
+
+ - start of the network with the interfaces file
+ - then call dhcpcd from the command line to get `wlan0` up and running
+ 
+ ***MAYBE***
+ 
+ 
 
 
 
