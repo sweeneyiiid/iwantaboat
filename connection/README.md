@@ -256,6 +256,23 @@ I want to be able to use the pi's built in wifi to connect to the internet but u
 
 ...also, I dont really know why the pi is working in some ways and failing in others, need to figure that out.
 
+OK, googled the error about not configured to listen to any interfaces
+
+https://askubuntu.com/questions/536531/dhcp-server-wont-start-gives-not-configured-to-listen-on-any-interfaces-eve
+
+Then went back to pi and opened `/etc/default/isc-dhcp-server`
+
+added `wlan0` back to `INTERFACESv4`
+
+No changes, gonna restart...
+
+`fv_nbo` come up at restart, but still no networks available
+
+lordy, a lot of stuff going on, commented out `authoritative`, didnt seem to do anything.
+
+***I have all the files on the other pi, should I just grab them and start over???***
+
+
 
 
 
