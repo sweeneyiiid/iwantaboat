@@ -62,6 +62,76 @@ OK, this is super scary, the `/etc/network/interfaces` that they tell you to upd
 
 Only good news is that this is all for `wlan1`, so hopefully... hopefully... all I am gonna be doing is screwing up my playground lan, not the main `wlan0`.
 
+### Configure access point
+
+Ok, I am gonna do a little bit of personalization here.
+
+ - changed `ssid=Pi_AP` to `ssid=fv_nbo`
+ - changed `wpa_passphrase=Raspberry` to my standard super-non-secure password
+
+And another very scary thing, from the instructions:
+
+*"If you are not using the Adafruit wifi adapters, you may have to change the driver=rtl871xdrv to say driver=nl80211 or something"*
+
+I do seem to remember something about a driver named something like `nl80211` in my googling around, so gonna go with that.  If this doesnt work, hopefully I can go back to the kball car documentation and see what to do.
+
+ - changed `driver=rtl871xdrv` to `driver=nl80211`
+
+And since I am listing all the changes, might as well remind myself that I also did the 0 to 1 change here.
+
+***Skipping Network Address Translation, because I am not gonna be connecting to other networks***
+
+### Running Network... and troubleshooting
+
+Attempted to bring up network by running:
+
+```
+sudo /usr/sbin/hostapd /etc/hostapd/hostapd.conf
+```
+
+Got the following error:
+
+```
+nl80211: Could not configure driver mode
+```
+
+So probably need to figure out if I am using the right driver, using `lsusb` I got the name of the antenna:
+
+
+```
+148f:5370 Ralink Technology, Corp. RT5370 Wireless Adapter
+```
+
+According to forums, that is supposed to work out of the box, so gonna try to comment out the driver line (like they said to do for the pi's built in wifi) and see what happens.
+
+...that didnt work either.
+
+Doing a bit more googling, there was another suggestion I am gonna try:
+
+https://askubuntu.com/questions/472794/hostapd-error-nl80211-could-not-configure-driver-mode
+
+```
+sudo nmcli nm wifi off
+sudo rfkill unblock wlan
+
+sudo ifconfig wlan0 10.15.0.1/24 up
+sleep 1
+sudo service isc-dhcp-server restart
+sudo service hostapd restart
+```
+
+I assume this will kill all of my wifi, but I am gonna give it a try anyway.
+
+Also, I am gonna change the `ifconfig` statement to use the ip address from the main instructions:
+
+```
+sudo ifconfig wlan1 192.168.42.1 up
+```
+
+
+
+
+
 
 
 
