@@ -33,7 +33,8 @@ def exit_mc():
     gp.cleanup()
 
 
-
-
-
-
+def move_direction(all_pins):
+    pins_high = all_pins[0]
+    pins_low = all_pins[1]
+    act_pins(pins_high, lvl="high")
+    act_pins(pins_low, lvl"low")

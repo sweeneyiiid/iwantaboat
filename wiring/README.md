@@ -31,4 +31,18 @@ In terms of connecting to the computer:
  - relay 3 is controlled by `GPIO3`
  - relay 4 is controlled by `GPIO2`
 
+# Relay block two
+
+Relay block 2 controls the port motor.  It is configured the same way same way as block 1, except for the pins.
+
+ - relay 1 is controlled by `GPIO17`
+ - relay 2 is controlled by `GPIO27`
+ - relay 3 is controlled by `GPIO22`
+ - relay 4 is controlled by `GPIO10`
+
+
+
+
+
+
 
