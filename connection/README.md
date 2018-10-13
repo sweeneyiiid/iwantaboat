@@ -203,6 +203,7 @@ so went back to 'askubuntu' page help, and ran `sudo service isc-dhcp-server res
 Starting ISC DHCPv4 server: dhcpddhcpd service already running (pid file /var/run/dhcpd.pid currenty exists) ... failed!
 ```
 
+
 ...maybe that means it's actually already ready, gonna go back to the ***go*** command from main instructions.
 
 Nope, that's no good.
@@ -218,6 +219,28 @@ So is the dhcpd server already running? Check with ps axu. if it is already runn
 So it might be that chromium or something else (`wlan0`?) is locking DHCP and preventing the restart.
 
 So I am just gonna restart the machine and see what happens...
+
+Umm, now I dont have any wifi access.
+
+...God help me, so apparently my network is up on the raspberry pi, but I cant access any networks.
+
+So I am here on my windows machine, and I can see the network I set up `fv_nbo`, but on the pi it looks like all the networks are down.
+
+Working on the raspberry pi earlier,  when I tried to run `sudo service isc-dhcp-server restart` I get an error with a bunch of stuff, but notably (maybe):
+
+```
+dhcpd[980]: Not configured to listen on any interfaces!
+```
+
+But anyway, I am gonna try to SSH into the pi based on the `fv_nbo` network I see on my windows machine, and see what happens.
+
+First though, I need to make sure SSH is enabled on the pi, its disabled by default.
+
+so followed the instructions at: https://www.raspberrypi.org/documentation/remote-access/ssh/
+
+Enabled SSH by following the instructions via the start menu, and actually another option was `remote GPIO`, so I enabled that as well, just in case I need it down the road.
+
+So now gonna disconnect from my windows network, and try to log into the pi...
 
 
 
