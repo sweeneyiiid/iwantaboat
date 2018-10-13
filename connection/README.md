@@ -128,6 +128,19 @@ Also, I am gonna change the `ifconfig` statement to use the ip address from the 
 sudo ifconfig wlan1 192.168.42.1 up
 ```
 
+Lordy, this aint easy... my pi doesnt recognize command `nmcli`, and I am sick of installing stuff, so for right now I am gonna try to go on without it, if that's no good, I'll install it.
+
+instead, gonna try:
+
+```
+sudo iwconfig wlan0 txpower off
+```
+
+...and then presumable 
+
+```
+sudo iwconfig wlan0 txpower ***on***
+```
 
 
 
