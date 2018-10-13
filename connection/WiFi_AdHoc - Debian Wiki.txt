@@ -1,0 +1,350 @@
+0 Items Sign In
+
+ Adafruit Logo 
+SHOP BLOG LEARN FORUMS VIDEOS ADABOX
+
+Setting up a Raspberry Pi as a WiFi access point
+Make the most adorable little WiFi router
+Overview
+What you'll need
+Preparation
+Check Ethernet & Wifi
+Install software
+Connect and Test
+Compiling hostapd
+Featured Products
+Single Page
+Download PDF
+Contributors
+lady ada
+Feedback? Corrections?
+RASPBERRY PI / LEARN RASPBERRY PI  INTERNET OF THINGS - IOT / WIRELESS  RASPBERRY PI / PI A+, B+, 2, 3  
+Install software by lady ada
+Next up we install the software onto the Pi that will act as the 'hostap' (host access point) You need internet access for this step so make sure that Ethernet connection is up!
+
+sudo apt-get update
+sudo apt-get install hostapd isc-dhcp-server
+
+(You may need to sudo apt-get update if the Pi can't seem to get to the apt-get repositories)
+
+raspberry_pi_aptgethostapd.gif
+(text above shows udhcpd but that doesnt work as well as isc-dhcp-server, still, the output should look similar)
+Also install a nice iptables manager with
+
+sudo apt-get install iptables-persistent
+
+You'll get two 'config' screens, say Yes to both
+
+raspberry_pi_iptables.png
+Set up DHCP server
+
+Next we will edit /etc/dhcp/dhcpd.conf, a file that sets up our DHCP server - this allows wifi connections to automatically get IP addresses, DNS, etc.
+
+Run this command to edit the file
+
+sudo nano /etc/dhcp/dhcpd.conf
+
+Find the lines that say
+
+ Download file Copy Code
+option domain-name "example.org";
+option domain-name-servers ns1.example.org, ns2.example.org;
+and change them to add a # in the beginning so they say
+
+ Download file Copy Code
+#option domain-name "example.org";
+#option domain-name-servers ns1.example.org, ns2.example.org;
+Find the lines that say
+
+ Download file Copy Code
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+#authoritative;
+and remove the # so it says
+
+ Download file Copy Code
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+authoritative;
+raspberry_pi_authoritatinve.gif
+Then scroll down to the bottom and add the following lines
+ Download file Copied!
+subnet 192.168.42.0 netmask 255.255.255.0 {
+	range 192.168.42.10 192.168.42.50;
+	option broadcast-address 192.168.42.255;
+	option routers 192.168.42.1;
+	default-lease-time 600;
+	max-lease-time 7200;
+	option domain-name "local";
+	option domain-name-servers 8.8.8.8, 8.8.4.4;
+}
+raspberry_pi_subnet.png
+Save the file by typing in Control-X then Y then return
+
+Run
+
+sudo nano /etc/default/isc-dhcp-server
+
+and scroll down to INTERFACES="" and update it to say INTERFACES="wlan0"
+
+Or whatever the name of your wifi adapter is!
+
+It may be called INTERFACESv4 and v6 - in which case add wlan0 to both
+
+raspberry_pi_dhcpwlan0.gif
+close and save the file
+
+Set up wlan0 for static IP
+
+If you happen to have wlan0 active because you set it up, run sudo ifdown wlan0
+There's no harm in running it if you're not sure
+
+raspberry_pi_ifdownwlan0.gif
+Next we will set up the wlan0 connection to be static and incoming. Run sudo nano /etc/network/interfaces to edit the file
+
+Find the line auto wlan0 and add a # in front of the line, and in front of every line afterwards. If you don't have that line, just make sure it looks like the screenshot below in the end! Basically just remove any old wlan0 configuration settings, we'll be changing them up
+
+Depending on your existing setup/distribution there might be more or less text and it may vary a little bit
+
+Add the lines
+
+ Download file Copy Code
+iface wlan0 inet static
+  address 192.168.42.1
+  netmask 255.255.255.0
+After allow-hotplug wlan0 - see below for an example of what it should look like.  Any other lines afterwards should have a # in front to disable them
+
+raspberry_pi_staticip.gif
+Save the file (Control-X Y ) 
+
+Assign a static IP address to the wifi adapter by running 
+sudo ifconfig wlan0 192.168.42.1
+
+raspberry_pi_ifconfigwlan0.gif
+Configure Access Point
+Now we can configure the access point details. We will set up a password-protected network so only people with the password can connect.
+
+Create a new file by running sudo nano /etc/hostapd/hostapd.conf
+
+Paste the following in, you can change the text after ssid= to another name, that will be the network broadcast name. The password can be changed with the text after wpa_passphrase=
+
+ Download file Copy Code
+interface=wlan0
+driver=rtl871xdrv
+ssid=Pi_AP
+country_code=US
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=Raspberry
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP
+wpa_group_rekey=86400
+ieee80211n=1
+wme_enabled=1
+If you are not using the Adafruit wifi adapters, you may have to change the driver=rtl871xdrv to say driver=nl80211 or something
+
+raspberry_pi_edithostapdconf.gif
+If you are using the Raspberry Pi 3's internal WiFi adapter, comment out the driver=rtl871xdrv line altogether:
+
+raspberry_pi_pi3.png
+Save as usual. Make sure each line has no extra spaces or tabs at the end or beginning - this file is pretty picky!
+
+Now we will tell the Pi where to find this configuration file. Run sudo nano /etc/default/hostapd
+
+Find the line #DAEMON_CONF="" and edit it so it says DAEMON_CONF="/etc/hostapd/hostapd.conf"
+Don't forget to remove the # in front to activate it!
+
+Then save the file
+
+raspberry_pi_hostapdconf.gif
+Likewise, run sudo nano /etc/init.d/hostapd and find the line
+
+DAEMON_CONF=
+
+and change it to
+
+DAEMON_CONF=/etc/hostapd/hostapd.conf
+
+raspberry_pi_daemoncofng.png
+Configure Network Address Translation
+
+Setting up NAT will allow multiple clients to connect to the WiFi and have all the data 'tunneled' through the single Ethernet IP. (But you should do it even if only one client is going to connect)
+
+Run sudo nano /etc/sysctl.conf
+
+Scroll to the bottom and add 
+
+net.ipv4.ip_forward=1
+
+on a new line. Save the file. This will start IP forwarding on boot up
+
+raspberry_pi_sysctrl.gif
+Also run
+
+sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+to activate it immediately
+
+Run the following commands to create the network translation between the ethernet port eth0 and the wifi port wlan0
+ Download file Copy Code
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+You can check to see whats in the tables with
+
+sudo iptables -t nat -S
+sudo iptables -S
+
+To make this happen on reboot (so you don't have to type it every time) run
+sudo sh -c "iptables-save > /etc/iptables/rules.v4"
+
+raspberry_pi_ipsave.png
+The iptables-persistent tool you installed at the beginning will automagically reload the configuration on boot for you.
+
+Update hostapd (maybe)
+If you are running Raspberry pi kernel 4.4.13-v7+ or greater (check your kernel vesion with uname -a), you do not need to do this step.
+
+If you are using the Raspberry Pi 3 built-in WiFi or are not using RTL8192-like WiFi adapter, then skip this step!
+
+Before we can run the access point software, we have to update it to a version that supports the WiFi adapter. 
+First get the new version by typing in 
+
+wget http://adafruit-download.s3.amazonaws.com/adafruit_hostapd_14128.zip
+
+to download the new version (check the next section for how to compile your own updated hostapd) then 
+
+unzip adafruit_hostapd_14128.zip
+
+to uncompress it. Move the old version out of the way with
+
+sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.ORIG
+
+And move the new version back with 
+
+sudo mv hostapd /usr/sbin
+
+set it up so its valid to run with
+
+sudo chown root:root /usr/sbin/hostapd
+
+sudo chmod 755 /usr/sbin/hostapd
+
+raspberry_pi_swaphostapd.gif
+First test!
+Finally we can test the access point host! Run
+
+sudo /usr/sbin/hostapd /etc/hostapd/hostapd.conf
+To manually run hostapd with our configuration file. You should see it set up and use wlan0 then you can check with another wifi computer that you see your SSID show up. If so, you have successfully set up the access point.
+
+If you get this warning
+
+ Download file Copy Code
+Configuration file: /etc/hostapd/hostapd.conf
+Line 2: invalid/unknown driver 'rtl871xdrv'
+1 errors found in configuration file '/etc/hostapd/hostapd.conf'
+Failed to set up interface with /etc/hostapd/hostapd.conf
+Failed to initialize interface
+It could mean that either you are not using a RTL871Xdrv WiFi adapter (e.g. Pi 3 internal wifi) and should comment out the driver=rtl871xdrv line in the hostapd config OR you are using that chipset and you need to download our recompiled hostapd binary
+
+If it does work, you should get something like this:
+
+raspberry_pi_testap.gif
+raspberry_pi_pi3ap.png
+And see a new access point created:
+
+raspberry_pi_pi_ap.gif
+You can try connecting and disconnecting from the Pi_AP with the password you set before (probably Raspberry if you copied our hostapd config), debug text will display on the Pi console but you won't be able to connect through to the Ethernet connection yet.
+
+raspberry_pi_staconnected.png
+Cancel the test by typing Control-C in the Pi console to get back to the Pi command line
+
+Removing WPA-Supplicant
+Depending on your distro, you may need to remove WPASupplicant. Do so by running this command:
+
+ Download file Copy Code
+sudo mv /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service ~/
+and then rebooting (sudo reboot) and retrying running hostapd
+
+Finishing up!
+OK now that we know it works, time to set it up as a 'daemon' - a program that will start when the Pi boots.
+Run the following commands
+
+sudo service hostapd start 
+sudo service isc-dhcp-server start
+you can always check the status of the host AP server and the DHCP server with
+
+sudo service hostapd status
+raspberry_pi_hostapdstat.png
+or sudo service isc-dhcp-server status
+
+raspberry_pi_dhcpdstat.png
+To start the daemon services. Verify that they both start successfully (no 'failure' or 'errors')
+Then to make it so it runs every time on boot
+
+sudo update-rc.d hostapd enable 
+sudo update-rc.d isc-dhcp-server enable
+raspberry_pi_updaterc.gif
+CHECK ETHERNET & WIFI CONNECT AND TEST
+This guide was first published on Jun 12, 2013. It was last updated on Oct 12, 2018.
+This page (Install software) was last updated on Sep 01, 2017.
+ 
+Raspberry Pi 3 - Model B - ARMv8 with 1G RAM
+$35.00ADD TO CART
+ 
+Raspberry Pi 2 - Model B v1.2 - ARM Cortex-A53 with 1G RAM
+$39.95OUT OF STOCK
+ 
+Raspberry Pi Model B+ 512MB RAM
+$29.95OUT OF STOCK
+ 
+Adafruit Raspberry Pi B+ / Pi 2 / Pi 3 Case - Smoke Base
+$7.95ADD TO CART
+ 
+5V 2.5A Switching Power Supply with 20AWG MicroUSB Cable
+$7.50ADD TO CART
+ 
+Ethernet Cable - 10 ft long
+$2.95ADD TO CART
+ 
+Miniature WiFi (802.11b/g/n) Module: For Raspberry Pi and more
+$11.95OUT OF STOCK
+ 
+USB WiFi (802.11b/g/n) Module: For Raspberry Pi and more
+$12.95ADD TO CARTAll Featured Products
+RELATED GUIDES
+Raspberry Pi Kernel-o-Matic
+Kreate Kustom Kernels Kwickly!
+by Justin Cooper
+ 
+If you've ever needed to compile the Linux Kernel on a Raspberry Pi, you've probably noticed that it takes a long time. We sure have! If you have a desktop computer or a laptop with decent hardware specs, it seems like there ought to be an easy way to use all that processing power to generate a new kernel for your Pi, but it can be tricky to figure out the specifics. Enter the Adafruit Pi Kernel-o-Matic!
+Program an AVR or Arduino Using Raspberry Pi GPIO
+How to use the avrdude tool on a Raspberry Pi to program an AVR microchip or Arduino board!
+by Tony DiCola
+ 
+Learn how to compile and install the latest avrdude version on a Raspberry Pi so it can program boards using the Pi's GPIO pins.
+Pi Hole Ad Detection Display with PiTFT
+Watch advertisements get blocked from your entire network, in real-time!
+by Brent Rubell
+ 
+We're going to block advertisements, network-wide, with a Pi runing Pi-hole, and display network statistics with an Adafruit PiTFT+
+BlueLive: Livestream Studio switcher controller
+Mapped for Livestream Studio, switch streams with big ole buttons
+by Timothy Reese
+Livestream Studio is an incredibly robust streaming software. Regular keyboards and mice work, but for fast action and ease of use, you can't beat a dedicated piece of switching hardware with arcade buttons. Bluetooth and LiPo-battery powered, have access to everything you need to get your show switching with gusto.
+CONTACT
+SUPPORT
+DISTRIBUTORS
+EDUCATORS
+JOBS
+FAQ
+SHIPPING & RETURNS
+TERMS OF SERVICE
+PRIVACY & LEGAL
+ABOUT US
+ENGINEERED IN NYC Adafruit ®
+"Life is not easy for any of us. But what of that? We must have perseverance and above all confidence in ourselves. We must believe that we are gifted for something, and that this thing, at whatever cost, must be attained"
+- Marie Curie
