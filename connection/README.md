@@ -193,6 +193,33 @@ I am not gonna do anything with the `static routers` configuration right now, al
 
 So now gonna try again.
 
+OK, so now when I rollover the wifi icon on the desktop tray, I see that `wlan1` has the IP I want, but is still associated with my internet network, which is weird.
+
+gonna proceed anyway though.
+
+so went back to 'askubuntu' page help, and ran `sudo service isc-dhcp-server restart`, after going to log, saw error:
+
+```
+Starting ISC DHCPv4 server: dhcpddhcpd service already running (pid file /var/run/dhcpd.pid currenty exists) ... failed!
+```
+
+...maybe that means it's actually already ready, gonna go back to the ***go*** command from main instructions.
+
+Nope, that's no good.
+
+So googled the error, and got to a page with a fairly obscure comment that actually might be what I need.
+
+https://unix.stackexchange.com/questions/347373/dhcp-error-dhcpd-service-already-running
+
+```
+So is the dhcpd server already running? Check with ps axu. if it is already running, it should pick up the new config on next restart, so figure out who is starting it, and restart it (or reboot if you can't figure it out). – dirkt Feb 25 '17 at 9:46
+```
+
+So it might be that chromium or something else (`wlan0`?) is locking DHCP and preventing the restart.
+
+So I am just gonna restart the machine and see what happens...
+
+
 
 
 
