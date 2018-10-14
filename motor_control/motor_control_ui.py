@@ -38,7 +38,7 @@ while True:
         mc.move_direction(pins_forward_hi_lo)
     #reverse
     elif cmd_in == 'r':
-        mc.move_direction(pins_forward_hi_lo)
+        mc.move_direction(pins_reverse_hi_lo)
     #easy port
     elif cmd_in == 'd':
         mc.move_direction(pins_easy_port_hi_lo)
