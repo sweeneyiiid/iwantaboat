@@ -298,6 +298,13 @@ Ok, I am struggling here, but able to set up the pi as a virtual router, so lets
 
 ...so gonna try that
 
+***NOTE: the only thing I uncommented was:***
+
+```
+iface wlan1 inet static
+  address 192.168.42.1
+  netmask 255.255.255.0
+```
 
 
 
