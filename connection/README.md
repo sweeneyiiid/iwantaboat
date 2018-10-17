@@ -288,6 +288,16 @@ potentially:
  ***MAYBE***
  
  
+# Jury Rigged $H1T
+
+Ok, I am struggling here, but able to set up the pi as a virtual router, so lets go from there:
+
+ - I want to SSH into the pi and execute `motor_control_ui.py`
+ - to do that, just need to ***uncomment*** the `/etc/network/interfaces`
+ - and then SSH into `192.168.42.1`
+
+...so gonna try that
+
 
 
 
