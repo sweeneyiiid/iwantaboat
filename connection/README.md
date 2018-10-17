@@ -306,6 +306,7 @@ iface wlan1 inet static
   netmask 255.255.255.0
 ```
 
+***Hold on, also uncummented*** `allow-hotplug wlan1`
 
 
 
