@@ -308,7 +308,12 @@ iface wlan1 inet static
 
 ***Hold on, also uncummented*** `allow-hotplug wlan1`
 
+***Want to make this work for `wlan0`, since apparently I cant use it for the internet anyway, so additionally:***
 
+ - change `/etc/network/interfaces` file to make 0 like 1
+ - update `/etc/hostapd/hostapd.conf` to reference 0 instead of 1
+
+***ok, that works***
 
 
 
