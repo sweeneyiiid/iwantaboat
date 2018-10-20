@@ -312,8 +312,9 @@ iface wlan1 inet static
 
  - change `/etc/network/interfaces` file to make 0 like 1
  - update `/etc/hostapd/hostapd.conf` to reference 0 instead of 1
+ - the step above includes commenting out the line `interface wlan0 inet dhcp`
 
-***ok, that works***
+***ok, that works, and by undoing the above by commenting out the first two bullets and uncommenting the third, I go back to regular internet***
 
 
 
