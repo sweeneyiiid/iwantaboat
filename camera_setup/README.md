@@ -1,13 +1,19 @@
 # Camera Work README
 
+***Got a new waterproof camera. Gonna retry all this and see if it still works...***
+
 ### Notes on the camera
 
- - 2.0 Megapixel USB Camera (NOT a raspicam)
- - `ELP-USBFHD01M-L21`
+ - 1.0 Megapixel USB Camera (NOT a raspicam)
+ - `ELP-USB100W05MT-DL36`
 
 Some basic docs: https://www.raspberrypi.org/documentation/usage/webcams/
 
 Setting up and basic operation:
+
+***Note, got an error with `fswebcam` when installing new camera, googled the error, and I think its because I already have motion installed and cant use both.***
+
+***So skipping to streaming with the new camera...***
 
 ```
 sudo apt-get install fswebcam
@@ -80,7 +86,7 @@ So it's running, to view, get the raspberry pi's IP address, and type it with po
 
 To get the IP address, type `hostname -I` in the terminal.
 
-***IT WORKS!!!***
+***Hmm, seems to work on the machine, but not on the general internet, maybe thats because I am not on the same LAN as the pi...***
 
 
 
