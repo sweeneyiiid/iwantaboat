@@ -4,6 +4,7 @@ import time
 
 
 pins = [2,3,4,14, 17, 27, 22, 10]
+pins_winch = [15,18,23,24]
 
 pins_forward_hi_lo = [[2,3,17,27], [4,14,22,10]]
 pins_reverse_hi_lo = [[4,14,22,10], [2,3,17,27]]
@@ -14,7 +15,9 @@ pins_hard_starboard_hi_lo = [[4,14,17, 27], [2,3,22,10]]
 
 
 mc.set_pins_out(pins)
+mc.set_pins_out(pins_winch)
 mc.act_pins(pins, "high")
+mc.act_pins(pins_winch, "low")
 
 
 while True:
@@ -27,9 +30,11 @@ while True:
               '              dd : hard port \n' +
               '               j : easy starboard \n' +
               '              jj : hard starboard \n' +
+              '           lower : stop motion and lower camera \n' +
+              '           raise : stop motion and raise camera \n' +
               '            exit : exit program \n' +
               '            help : display help \n ' +
-              '<any other key> : stop \n')
+              ' <any other key> : stop \n')
     elif cmd_in == 'exit':
         mc.act_pins(pins, 'high')
         break
@@ -51,8 +56,18 @@ while True:
     #hard starboard
     elif cmd_in == 'jj':
         mc.move_direction(pins_hard_starboard_hi_lo)
+    elif cmd_in == 'lower':
+        mc.act_pins(pins, 'high')
+        mc.act_pins([15,18], 'high')
+        mc.act_pins([23,24], 'low')
+    elif cmd_in == 'raise':
+        mc.act_pins(pins, 'high')
+        mc.act_pins([15,18], 'low')
+        mc.act_pins([23,24], 'high')
+        
     else:
         mc.act_pins(pins, 'high')
+        mc.act_pins(pins_winch, 'low')
 
 mc.exit_mc()
 print('Goodbye')
