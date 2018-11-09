@@ -62,15 +62,29 @@ It works pretty well though, even making me rethink the need for figuring out ho
 
 ### Winch operation
 
-As mentioned above, I had trouble with the standard motor not being powerful enough to raise the winch.  There are several possibilities for how to solve this, but right now I am gonna work on using a stepper motor, which I think may be more powerful and have a slower, hopefully sturdier, pull
+As mentioned above, I had trouble with the standard motor not being powerful enough to raise the winch.  There are several possibilities for how to solve this, but I picked up a fairly high power (I hope) bi-polar stepper motor (`17HS16-2004S1`).
 
-Step motors are harder to program because they involve giving sequences of commands on how to turn the motor, rather than just on or off.  These are still controlled kind of like a relay through the `GPIO` pins though, so it shouldn't be too bad.
+I also bought a hat to connect to the motor, I am reading guidance for that at: 
 
-The reference I am using for how to program the step motor is at:
+http://www.raspberrypiwiki.com/index.php/Stepper/Motor/Servo_Robot_Expansion_Board_SKU:418460
 
- - https://42bots.com/tutorials/28byj-48-stepper-motor-with-uln2003-driver-and-arduino-uno/
+...but I may also go a bit rogue, interestingly, it seems like this may be something you can do with a relay...
 
+According to the spec sheet of the motor (not the hat website above), the motor works as follows:
 
+ - pin 1, black, `A`
+ - pin 2, green, `A\`
+ - pin 3, red,   `B`
+ - pin 4, blue,  `B\`
+
+And the step sequence is:
+
+ - 1: Black, Red: +
+ - 2: Red, Green: +
+ - 3: Green, Blue: +
+ - 4: Black, Blue: + 
+
+Hmm, ok, this worked, but at 12 volts, my connector wires were getting hot, so this is a decent idea, but may need to do a bit more research and pick up some heavier guage wire... or think about running at lower voltage.
 
 
 
