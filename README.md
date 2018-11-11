@@ -25,6 +25,9 @@ For raising and lowering the winch, this is straightforward, that's what I am wo
 
 For controlling the boat, I am planning on doing the same thing, basically putting a screw on starboard and port side, and turning by going forward on one and either off or reverse on the other.
 
+# Changing Gears
+
+I am about to switch to using a custom pi hat for controlling motors, I am saving the work before that to the branch `pre_motor_hat`.
 
 
 
