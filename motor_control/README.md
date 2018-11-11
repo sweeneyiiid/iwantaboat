@@ -1,35 +1,26 @@
 # Motor Control
 
-I have had some issues with the winch control, so I am gonna try some differenct techniques for the motor for the winch.  The motors for the screws are fairly settled.  More detail on how they are wired is in the `wiring` folder.
+After messing around with a few different options, I have settled on what I hope will be a good plan.
 
-I control the motors by setting up relays and linking them to the GPIO pins, and then using python to access the pins.
+ - Two simple motors power the boat, steering by throwing one off or into reverse
+ - A larger stepper motor controls the winch, which demands a decent amount of power based on the weight of the camera
+ - everything is controlled by a motor board sitting on top of the pi
 
-I am starting with the winch operation, but I imagine the code to control the screws will be similar and use the same functions.
+### Motor board setup
 
-### A note on the relays I am using for the screws
+Following instructions from a website run by the board manufacturer:
 
-Note, this is just for the screws, not the winch.
+http://www.raspberrypiwiki.com/index.php/Stepper/Motor/Servo_Robot_Expansion_Board_SKU:418460
 
-Powered by five volts, and an attachment to the *ground* of the circuit closes the relay.  This is kind of weird for the raspberry pi, I would have expected to put voltage on the circuit would close the relay, but it actually opens it.  Not a big deal, just have to keep it in mind.
+First need to enable I2C, following instructions from https://www.androidcentral.com/does-raspberry-pi-3-b-support-i2c
 
-# Winch control
+```
+sudo raspi-config
+```
 
-This code will serve as the basis (gineau pig) for controlling all of the motors.
+Then go to interfacing options to turn on, and reboot.
 
 
- - channel 1 is the ground for the lowering (call it forward) direction
- - channel 2 is the power for lowering 
- - channel 3 is the ground for raising (reverse)
- - channel 4 is the power for raising
-
-### Pin setup
-
- - power: physical pin 2
- - ground: pysical pin 6
- - channel 1: pysical pin 3 (`GPIO2`) 
- - channel 2: pysical pin 5 (`GPIO3`) 
- - channel 3: pysical pin 7 (`GPIO4`) 
- - channel 4: pysical pin 8 (`GPIO14`) 
 
 ### Basic Script
 
@@ -66,7 +57,6 @@ As mentioned above, I had trouble with the standard motor not being powerful eno
 
 I also bought a hat to connect to the motor, I am reading guidance for that at: 
 
-http://www.raspberrypiwiki.com/index.php/Stepper/Motor/Servo_Robot_Expansion_Board_SKU:418460
 
 ...but I may also go a bit rogue, interestingly, it seems like this may be something you can do with a relay...
 
