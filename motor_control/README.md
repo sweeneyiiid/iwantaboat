@@ -20,14 +20,44 @@ sudo raspi-config
 
 Then go to interfacing options to turn on, and reboot.
 
+Now downloading some packages:
 
+```
+sudo apt-get install python-smbus i2c-tools
+sudo apt-get install python-dev
+```
+
+Ok, according to pi, I already have those, should be good to go.
+
+Now downloading code... this is kind of dicey, they tell you to clone the git repo, but not what git repo.
+
+found it (I hope) at: https://github.com/Alictronix/Raspi-MotorHat.git
+
+So here we go...
+
+```
+pip install git+https://github.com/Alictronix/Raspi-MotorHat.git
+```
+
+BAH, the thing isn't set up for pip, but thankfully somebody else on github did that for me.
+
+```
+pip install git+https://github.com/orionrobots/Raspi_MotorHAT
+```
+
+Ok, looks like this works, now onto testing.
+
+Testing the motor hat:
+
+Also cloning the `orionrobots` version of the repo so I can play around with it and test, as well as the original `Alictronix` version.
+
+OK, at least the basic `DCTest.py` for a single regular motor works.
+
+Now onto getting recreating and expanding the functionality from prior stuff.
 
 ### Basic Script
 
-The down stream system consists of a two 4 channel relays, each linked to a motor linked to a screw.  The relay allows the motor the go from forward to reverse, and a set of four `GPIO` pins, controlled by the `motor_control.py` script, determines which direction the motor rotates.  So the python script basically uses built in libraries for the `GPIO` pins to activate sets of pins, more detail on which pins do what is in the `wiring` folder.
-
-The UI then maps sets of pins to user commands.
-
+***Need to adjust this for pi hat***
 
 ### UI Setup
 
